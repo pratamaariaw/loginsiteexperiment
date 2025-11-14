@@ -1,5 +1,4 @@
 /* Halaman penuh */
-/ (root)
 body {
     font-family: Arial, sans-serif;
     height: 100vh;
@@ -89,4 +88,5 @@ body {
 .kartu-login button:hover {
     background-color: #444;
 }
+
 
