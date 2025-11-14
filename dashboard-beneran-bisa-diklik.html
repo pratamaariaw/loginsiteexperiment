@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Gift</title>
+
+<style>
+    body, html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+        background: black;
+        font-family: Arial, sans-serif;
+    }
+
+    /* SPLASH SCREEN */
+    .splash {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        z-index: 999;
+        overflow: hidden; 
+        transition: opacity 0.5s ease;
+        cursor: pointer;
+    }
+
+    .splash.hidden {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* TEKS SPLASH */
+    .splash-text {
+        position: relative;
+        color: #fff;
+        font-size: 42px;
+        font-weight: bold;
+        text-align: center;
+        z-index: 1001;
+
+        text-shadow:
+            0 0 10px #ff66cc,
+            0 0 20px #ff66cc,
+            0 0 35px #ff3399,
+            0 0 50px #ff3399;
+
+        animation: pulseGlow 1.8s infinite ease-in-out;
+    }
+
+    @keyframes pulseGlow {
+        0% {
+            transform: scale(1);
+            text-shadow:
+                0 0 10px #ff66cc,
+                0 0 20px #ff66cc,
+                0 0 35px #ff3399,
+                0 0 50px #ff3399;
+        }
+        50% {
+            transform: scale(1.05);
+            text-shadow:
+                0 0 20px #ff99dd,
+                0 0 35px #ff66cc,
+                0 0 55px #ff33aa,
+                0 0 80px #ff33aa;
+        }
+        100% {
+            transform: scale(1);
+            text-shadow:
+                0 0 10px #ff66cc,
+                0 0 20px #ff66cc,
+                0 0 35px #ff3399,
+                0 0 50px #ff3399;
+        }
+    }
+
+    /* LAYER EMOJI DALAM SPLASH */
+    #emojiLayer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        pointer-events: none;
+    }
+
+    .emoji {
+        position: absolute;
+        font-size: 40px;
+        opacity: 0.85;
+        animation: float 4s infinite ease-in-out;
+        pointer-events: none;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-25px) rotate(10deg); }
+        100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    /* MAIN PAGE */
+    .meme-container {
+        display: none;
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background-image: url("backg.jpeg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: black;
+    }
+
+    /* VIDEO LAYER */
+    .center-overlay {
+        position: absolute;
+        top: 19%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(70% * 1.75);
+        height: calc(36% * 1.75);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none;
+        overflow: hidden;
+    }
+
+    .video-overlay {
+        height: 100%;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 0 25px rgba(0,0,0,0.9));
+    }
+</style>
+</head>
+
+<body>
+
+<!-- SPLASH SCREEN -->
+<div class="splash" id="splash">
+
+    <!-- EMOJI PARTY -->
+    <div id="emojiLayer"></div>
+
+    <!-- TEKS -->
+    <div class="splash-text">GIFT FOR YOU. CLICK HERE, HONEY ;)</div>
+
+</div>
+
+<!-- MAIN CONTENT SETELAH KLIK -->
+<div class="meme-container" id="mainContent">
+    <div class="center-overlay">
+        <video id="vid" src="redirect.mp4" class="video-overlay" loop></video>
+    </div>
+</div>
+
+<script>
+    const splash = document.getElementById("splash");
+    const emojiLayer = document.getElementById("emojiLayer");
+    const mainContent = document.getElementById("mainContent");
+    const video = document.getElementById("vid");
+
+    const emojis = ["🎉","✨","🥳","🤩","😁","🎊","💖","💫"];
+
+    // generate emoji
+    for (let i = 0; i < 25; i++) {
+        const e = document.createElement("div");
+        e.className = "emoji";
+        e.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+
+        e.style.left = Math.random() * 100 + "%";
+        e.style.top = Math.random() * 100 + "%";
+        e.style.animationDelay = (Math.random() * 2) + "s";
+
+        emojiLayer.appendChild(e);
+    }
+
+    splash.addEventListener("click", () => {
+        splash.classList.add("hidden");
+
+        setTimeout(() => {
+            splash.style.display = "none";
+            mainContent.style.display = "block";
+            video.muted = false;
+            video.play();
+        }, 450);
+    });
+</script>
+
+</body>
+</html>
